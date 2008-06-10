@@ -18,23 +18,25 @@ make it more efficient than other tools, including defrag and, maybe,
 xfs_fsr.
 
 %description -l pl.UTF-8
-Shake jest defragmentatorem, który działa w przestrzeni użytkownika, nie
-wymagając wprowadzania zmian do jądra. Nie ma tu żadnej czarnej magii,
-działanie opiera się na przepisywaniu pofragmentowanych plików. Użyte
-jest kilka heurystyk, które mogą sprawić, że program będzie bardziej
-wydajny od innych narzędzi takich jak defrag, czy xfs_fsr.
+Shake jest defragmentatorem, który działa w przestrzeni użytkownika,
+nie wymagając wprowadzania zmian do jądra. Nie ma tu żadnej czarnej
+magii, działanie opiera się na przepisywaniu pofragmentowanych plików.
+Użyte jest kilka heurystyk, które mogą sprawić, że program będzie
+bardziej wydajny od innych narzędzi takich jak defrag, czy xfs_fsr.
 
 %prep
 %setup -q
 
 %build
-%{__make} CC="%{__cc} %{rpmcflags}"
+%{__make} \
+	CC="%{__cc} %{rpmcflags}"
 
 %install
 rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT{%{_bindir},%{_mandir}/man8}
 
-%{__make} install DESTDIR=$RPM_BUILD_ROOT
+%{__make} install \
+	DESTDIR=$RPM_BUILD_ROOT
 
 %clean
 rm -rf $RPM_BUILD_ROOT
