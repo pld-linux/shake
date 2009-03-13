@@ -1,13 +1,15 @@
 Summary:	File shaker
 Summary(pl.UTF-8):	Mieszacz plików
 Name:		shake
-Version:	0.29
+Version:	0.99
 Release:	1
 License:	GPL
 Group:		Applications
 Source0:	http://download.savannah.nongnu.org/releases/shake/%{name}-%{version}.tar.bz2
-# Source0-md5:	6713f30353be2891f60e64a5c899bfde
+# Source0-md5:	b27fe7a21f767e3af105207c27d0c3e7
 URL:		http://vleu.net/shake/
+BuildRequires:	attr-devel
+BuildRequires:	cmake
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -28,13 +30,20 @@ bardziej wydajny od innych narzędzi takich jak defrag, czy xfs_fsr.
 %setup -q
 
 %build
+cd build
+%{__cmake} ../ 
+# fix paths
+%{__sed} -i -e 's,/usr/local,/usr,g' CPackConfig.cmake
+%{__sed} -i -e 's,/usr/local,/usr,g' CPackSourceConfig.cmake 
+%{__sed} -i -e 's,/usr/local,/usr,g' cmake_install.cmake
+
 %{__make} \
 	CC="%{__cc} %{rpmcflags}"
 
 %install
 rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT{%{_bindir},%{_mandir}/man8}
-
+cd build
 %{__make} install \
 	DESTDIR=$RPM_BUILD_ROOT
 
@@ -43,6 +52,6 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%doc Changelog
+%doc NEWS
 %attr(755,root,root) %{_bindir}/*
 %{_mandir}/man8/*
