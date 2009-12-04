@@ -10,6 +10,7 @@ Source0:	http://download.savannah.nongnu.org/releases/shake/%{name}-%{version}.t
 URL:		http://vleu.net/shake/
 BuildRequires:	attr-devel
 BuildRequires:	cmake
+BuildRequires:	help2man
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -31,10 +32,10 @@ bardziej wydajny od innych narzędzi takich jak defrag, czy xfs_fsr.
 
 %build
 cd build
-%{__cmake} ../ 
+%{__cmake} ../
 # fix paths
 %{__sed} -i -e 's,/usr/local,/usr,g' CPackConfig.cmake
-%{__sed} -i -e 's,/usr/local,/usr,g' CPackSourceConfig.cmake 
+%{__sed} -i -e 's,/usr/local,/usr,g' CPackSourceConfig.cmake
 %{__sed} -i -e 's,/usr/local,/usr,g' cmake_install.cmake
 
 %{__make} \
