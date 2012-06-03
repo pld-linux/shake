@@ -1,12 +1,12 @@
 Summary:	File shaker
 Summary(pl.UTF-8):	Mieszacz plików
 Name:		shake
-Version:	0.99
+Version:	0.999
 Release:	1
 License:	GPL
 Group:		Applications
 Source0:	http://download.savannah.nongnu.org/releases/shake/%{name}-%{version}.tar.bz2
-# Source0-md5:	b27fe7a21f767e3af105207c27d0c3e7
+# Source0-md5:	dd68f3619880ab0d92ed099dc2492120
 URL:		http://vleu.net/shake/
 BuildRequires:	attr-devel
 BuildRequires:	cmake
@@ -28,7 +28,7 @@ Użyte jest kilka heurystyk, które mogą sprawić, że program będzie
 bardziej wydajny od innych narzędzi takich jak defrag, czy xfs_fsr.
 
 %prep
-%setup -q
+%setup -q -n shake-fs-%{version}
 
 %build
 cd build
