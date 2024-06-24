@@ -1,16 +1,18 @@
 Summary:	File shaker
 Summary(pl.UTF-8):	Mieszacz plików
 Name:		shake
-Version:	0.999
+Version:	1.0
 Release:	1
-License:	GPL
-Group:		Applications
-Source0:	http://download.savannah.nongnu.org/releases/shake/%{name}-%{version}.tar.bz2
-# Source0-md5:	dd68f3619880ab0d92ed099dc2492120
-URL:		http://vleu.net/shake/
+License:	GPL v3+
+Group:		Applications/File
+#Source0Download: https://github.com/unbrice/shake/tags
+Source0:	https://github.com/unbrice/shake/archive/v%{version}/%{name}-%{version}.tar.gz
+# Source0-md5:	e5759e180b765a6ff13e77d775652e92
+URL:		https://vleu.net/projects/shake/
 BuildRequires:	attr-devel
-BuildRequires:	cmake
+BuildRequires:	cmake >= 2.4
 BuildRequires:	help2man
+BuildRequires:	rpmbuild(macros) >= 1.605
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -28,24 +30,18 @@ Użyte jest kilka heurystyk, które mogą sprawić, że program będzie
 bardziej wydajny od innych narzędzi takich jak defrag, czy xfs_fsr.
 
 %prep
-%setup -q -n shake-fs-%{version}
+%setup -q
 
 %build
 cd build
-%{__cmake} ../
-# fix paths
-%{__sed} -i -e 's,/usr/local,/usr,g' CPackConfig.cmake
-%{__sed} -i -e 's,/usr/local,/usr,g' CPackSourceConfig.cmake
-%{__sed} -i -e 's,/usr/local,/usr,g' cmake_install.cmake
+%cmake ..
 
-%{__make} \
-	CC="%{__cc} %{rpmcflags}"
+%{__make}
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT{%{_bindir},%{_mandir}/man8}
-cd build
-%{__make} install \
+
+%{__make} -C build install \
 	DESTDIR=$RPM_BUILD_ROOT
 
 %clean
@@ -54,5 +50,7 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr(644,root,root,755)
 %doc NEWS
-%attr(755,root,root) %{_bindir}/*
-%{_mandir}/man8/*
+%attr(755,root,root) %{_bindir}/shake
+%attr(755,root,root) %{_bindir}/unattr
+%{_mandir}/man8/shake.8*
+%{_mandir}/man8/unattr.8*
